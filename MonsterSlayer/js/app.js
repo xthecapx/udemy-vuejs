@@ -42,11 +42,9 @@ new Vue({
     gameLogic: function(option) {
 
       // Main Logic
-      //this.logs.push("Main turn");
       this.gameOptions(option, 'main');
 
       //Monster Logic
-      //this.logs.push("Monster turn");
       var monsterOption = Math.round(Math.random()) * 2;
       this.gameOptions(monsterOption, 'monster');
 
@@ -78,14 +76,25 @@ new Vue({
     },
     checkWinner: function() {
       if ( this.health.monster <= 0) {
-        alert("Main win");
+        if (confirm("You won!!!", "Do you want to play again?")) {
+            this.battleStart();
+        } else {
+          this.showControls = false;
+        }
       } else if ( this.health.main <= 0 ) {
-        alert("Monster win");
+        if (confirm("You lose!!!", "Do you want to play again?")) {
+            this.battleStart();
+        } else {
+          this.showControls = false;
+        }
       }
+
     },
     battleStart: function() {
       this.showControls = true;
-      //this.logs.push(this.messages.start);
+      this.logs = [];
+      this.health.main = 100;
+      this.health.monster = 100;
     },
     characterAttack: function(character, logTo, times) {
       var attack = Math.round(Math.random()) * times + 10;
@@ -99,16 +108,21 @@ new Vue({
       
     },
     characterHeals: function(character) {
-      this.health[character] += 10;
-      this.logger(character, 'heals', 10);
+      if (this.health[character] <= 90) {
+        this.health[character] += 10;
+        this.logger(character, 'heals', 10);
+      } else {
+        this.health[character] = 100;
+        this.logs.push(character + " is full Health");
+      }
+      
     },
     logger: function(character, type, attack) {
         this.logs.push(this.messages[character][type] + attack);
     },
     giveUp: function() {
-      this.health.main = 0;
-
-      this.checkWinner();
+      this.logs = [];
+      this.showControls = false;
     }
   }
 });

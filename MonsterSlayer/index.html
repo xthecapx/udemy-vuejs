@@ -26,17 +26,17 @@
             </div>
         </div>
     </section>
-    <section class="row controls" @click="battleStart" v-if="!showControls">
+    <section class="row controls" v-if="!showControls">
         <div class="small-12 columns">
-            <button id="start-game">START NEW GAME</button>
+            <button id="start-game" @click="battleStart">START NEW GAME</button>
         </div>
     </section>
-    <section class="row controls" v-if="showControls">
+    <section class="row controls" v-else>
         <div class="small-12 columns">
             <button id="attack" @click="gameLogic(1)">ATTACK</button>
             <button id="special-attack" @click="gameLogic(2)">SPECIAL ATTACK</button>
             <button id="heal" @click="gameLogic(0)">HEAL</button>
-            <button id="give-up">GIVE UP</button>
+            <button id="give-up" @click="showControls = false">GIVE UP</button>
         </div>
     </section>
     <section class="row log" v-if="showControls">
