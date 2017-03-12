@@ -13,7 +13,7 @@
             <h1 class="text-center">YOU</h1>
             <div class="healthbar">
                 <div class="healthbar text-center" :style="mainHealth" style="background-color: green; margin: 0; color: white;">
-
+                    {{ health.main }}
                 </div>
             </div>
         </div>
@@ -21,30 +21,36 @@
             <h1 class="text-center">MONSTER</h1>
             <div class="healthbar">
                 <div class="healthbar text-center" :style="monsterHealth" style="background-color: green; margin: 0; color: white;">
-
+                    {{ health.monster }}
                 </div>
             </div>
         </div>
     </section>
-    <section class="row controls" @click="showControls = !showControls" v-if="!showControls">
+    <section class="row controls" @click="battleStart" v-if="!showControls">
         <div class="small-12 columns">
             <button id="start-game">START NEW GAME</button>
         </div>
     </section>
     <section class="row controls" v-if="showControls">
         <div class="small-12 columns">
-            <button id="attack" @click="calculateAttack">ATTACK</button>
-            <button id="special-attack">SPECIAL ATTACK</button>
-            <button id="heal">HEAL</button>
+            <button id="attack" @click="gameLogic(1)">ATTACK</button>
+            <button id="special-attack" @click="gameLogic(2)">SPECIAL ATTACK</button>
+            <button id="heal" @click="gameLogic(0)">HEAL</button>
             <button id="give-up">GIVE UP</button>
         </div>
     </section>
-    <section class="row log">
+    <section class="row log" v-if="showControls">
         <div class="small-12 columns">
+            <h2>Battle Log</h2>
             <ul>
-                <li>
-
-                </li>
+                <template  v-for="(log, index) in logs">
+                    <li v-if="index % 2 == 0" class="monster-turn">
+                        {{ log }}
+                    </li>
+                    <li v-else class="player-turn">
+                        {{ log }}
+                    </li>
+                </template>
             </ul>
         </div>
     </section>
