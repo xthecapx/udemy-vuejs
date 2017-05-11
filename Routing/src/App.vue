@@ -6,7 +6,12 @@
                 <hr>
                 <!-- <app-header></app-header> -->
                 <router-view name="header-top"></router-view>
-                <router-view></router-view>
+                <transition
+                    enter-active-class="animated flipInY"
+                    leave-active-class="animated flipOutY"
+                    mode="out-in">
+                    <router-view></router-view>
+                </transition>
                 <router-view name="header-bottom"></router-view>
             </div>
         </div>
